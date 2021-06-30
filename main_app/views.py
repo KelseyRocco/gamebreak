@@ -61,11 +61,9 @@ class GameCreate(LoginRequiredMixin, CreateView):
     fields = '__all__'
     success_url = '/games/'
 
-
 class GameUpdate(LoginRequiredMixin, UpdateView):
     model = Game
     fields = '__all__'
-
 
 class GameDetail(LoginRequiredMixin, DetailView):
     model = Game
@@ -79,23 +77,20 @@ def games_detail(request, game_id):
         'game': game, 'stores': stores_game_doesnt_have
 })
 
-class GameDelete(DeleteView):
+class GameDelete(LoginRequiredMixin, DeleteView):
     model = Game
     success_url = '/games/'
 
 
 #SYSTEMS
-
 class SystemCreate(LoginRequiredMixin, CreateView):
     model = System
     fields = '__all__'
     success_url = '/systems/'
 
-
 class SystemUpdate(LoginRequiredMixin, UpdateView):
     model = System
     fields = '__all__'
-
 
 class SystemDetail(LoginRequiredMixin, DetailView):
     model = System
@@ -104,7 +99,6 @@ class SystemDetail(LoginRequiredMixin, DetailView):
 def systems_detail(request, system_id):
     system = System.objects.get(id=system_id)
     return render(request, 'systems/detail.html', { 'system': system })
-
 
 class SystemDelete(LoginRequiredMixin, DeleteView):
     model = System
@@ -120,7 +114,6 @@ class StoreCreate(LoginRequiredMixin, CreateView):
     model = Store
     fields = '__all__'
     success_url = '/stores/'
-
 
 class StoreUpdate(LoginRequiredMixin, UpdateView):
     model = Store

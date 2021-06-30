@@ -45,10 +45,10 @@ class System(models.Model):
 # Store model
 class Store(models.Model):
     store = models.CharField(max_length =250) 
-
+    system = models.ForeignKey(System, default='1', on_delete=models.CASCADE)
+    
     def __str__(self):
         return self.store
-
 
 # Game model
 class Game(models.Model):
