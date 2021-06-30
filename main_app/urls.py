@@ -8,6 +8,7 @@ urlpatterns = [
     path('games/', views.games_index, name='index'),
     path('systems/', views.systems_index, name='index'),
     path('stores/', views.stores_index, name='index'),
+    
     path('games/create/', views.GameCreate.as_view(), name='games_create'),
     path('systems/create/', views.SystemCreate.as_view(), name='systems_create'),
     path('stores/create/', views.StoreCreate.as_view(), name='stores_create'),

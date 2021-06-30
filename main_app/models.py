@@ -42,22 +42,34 @@ class System(models.Model):
     def get_absolute_url(self):        
         return reverse('systems_detail', kwargs={'pk': self.id})
 
+# Store model
+class Store(models.Model):
+    store = models.CharField(max_length =250) 
+
+    def __str__(self):
+        return self.store
+
+    def get_absolute_url(self):        
+        return reverse('stores_detail', kwargs={'pk': self.id})
+
+
 # Game model
 class Game(models.Model):
     title = models.CharField(max_length=100)
     date = models.IntegerField()
-    genre = models.CharField(
-        max_length=1,
-        choices=GENRES,
-        default=GENRES[0][0]
+    genre = models.CharField(max_length=100
+        # max_length=1,
+        # choices=GENRES,
+        # default=GENRES[0][0]
     )
-    mode = models.CharField(
-        max_length=1,
-        choices=MODES,
-        default=MODES[0][0]
+    mode = models.CharField(max_length=100
+        # max_length=1,
+        # choices=MODES,
+        # default=MODES[0][0]
     )
 
     system = models.ForeignKey(System, default='1', on_delete=models.CASCADE)
+    # stores = models.ManyToManyField(Store, default = "Gamestop") 
     
     def __str__(self):
         return self.title
@@ -65,14 +77,3 @@ class Game(models.Model):
     def get_absolute_url(self):        
         return reverse('games_detail', kwargs={'pk': self.id})
 
-# Store model
-class Store(models.Model):
-    store = models.CharField(max_length =250) 
-    location = models.CharField(max_length =250) 
-    url = models.CharField(max_length=2500)
-
-    def __str__(self):
-        return self.store
-
-    def get_absolute_url(self):        
-        return reverse('stores_detail', kwargs={'pk': self.id})

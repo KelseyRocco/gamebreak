@@ -36,10 +36,32 @@ def systems_index(request):
     return render(request, 'systems/index.html', { 'systems': systems })
 
 def stores_index(request):
-    store = Store.objects.all()
-    return render(request, 'store/index.html', { 'store': store })
+    stores = Store.objects.all()
+    return render(request, 'stores/index.html', { 'stores': stores })
+
+
 
 #Class Based Views
+
+# Store
+class StoreDetail(DetailView):
+    model = Store
+
+class StoreCreate(CreateView):
+    model = Store
+    fields = '__all__'
+    success_url = '/stores/'
+
+class StoreUpdate(UpdateView):
+    model = Store
+    fields = '__all__'
+
+def stores_detail(request, store_id):
+    store = Store.objects.get(id=store_id)
+    return render(request, 'stores/detail.html', { 'store': store })
+
+
+
 #GAMES
 class GameCreate(CreateView):
     model = Game
@@ -85,19 +107,3 @@ class SystemDelete(DeleteView):
     success_url = '/systems/'
 
 
-# Store
-class StoreDetail(DetailView):
-    model = Store
-
-class StoreCreate(CreateView):
-    model = Store
-    fields = '__all__'
-    success_url = '/stores/'
-
-class StoreUpdate(UpdateView):
-    model = Store
-    fields = '__all__'
-
-def stores_detail(request, store_id):
-    store = Store.objects.get(id=store_id)
-    return render(request, 'store/detail.html', { 'store': store })
