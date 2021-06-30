@@ -3,10 +3,20 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Game, System, Store
+
 # from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import DetailView 
+
+# AWS
+import uuid 
+import boto3
+
+from .models import Game, System, Store, Photo
+
+# Constant variables 
+S3_BASE_URL = 'https://s3.us-west-1.amazonaws.com/'
+BUCKET = 'gamebreak'
 
 # SIGN IN/UP
 def signup(request):
@@ -60,13 +70,16 @@ class GameUpdate(LoginRequiredMixin, UpdateView):
 class GameDetail(LoginRequiredMixin, DetailView):
     model = Game
 
-
+@login_required
 def games_detail(request, game_id):
     game = Game.objects.get(id=game_id)
-    return render(request, 'games/detail.html', { 'game': game })
+    stores_game_doesnt_have = Store.objects.exclude(
+        id__in = game.stores.all().values_list('id'))
+    return render(request, 'game_detail.html', {
+        'game': game, 'stores': stores_game_doesnt_have
+})
 
-
-class GameDelete(LoginRequiredMixin, DeleteView):
+class GameDelete(DeleteView):
     model = Game
     success_url = '/games/'
 
@@ -87,7 +100,6 @@ class SystemUpdate(LoginRequiredMixin, UpdateView):
 class SystemDetail(LoginRequiredMixin, DetailView):
     model = System
 
-
 @login_required
 def systems_detail(request, system_id):
     system = System.objects.get(id=system_id)
@@ -97,7 +109,6 @@ def systems_detail(request, system_id):
 class SystemDelete(LoginRequiredMixin, DeleteView):
     model = System
     success_url = '/systems/'
-
 
 # Store
 
@@ -116,6 +127,21 @@ class StoreUpdate(LoginRequiredMixin, UpdateView):
     fields = '__all__'
 
 @login_required
-def stores_detail(request, store_id):
-    store = Store.objects.get(id=store_id)
-    return render(request, 'store/detail.html', { 'store': store })
+def assoc_store(request, game_id, store_id):
+    Game.objects.get(id=game_id).stores.add(store_id)
+    return redirect('game_detail', game_id=game_id)
+
+@login_required
+def add_photo(request, game_id):
+    photo_file = request.FILES.get('photo-file', None)
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            photo = Photo(url=url, game_id=game_id)
+            photo.save()
+        except:
+            print('An error occurred uploading file to S3')
+    return redirect('game_detail', game_id=game_id)

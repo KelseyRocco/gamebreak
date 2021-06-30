@@ -23,4 +23,8 @@ urlpatterns = [
     path('stores/<int:store_id>/', views.stores_detail, name='stores_detail'),
     path('stores/<int:pk>/', views.StoreDetail.as_view(), name='stores_detail'),
     path('stores/<int:pk>/update/', views.StoreUpdate.as_view(), name='stores_update'),
+    path('games/<int:game_id>/assoc_store/<int:store_id>/', views.assoc_store, name='assoc_store'),
+
+    path('games/<int:game_id>/add_photo/', views.add_photo, name='add_photo'),
+
 ]

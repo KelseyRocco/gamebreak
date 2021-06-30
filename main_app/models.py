@@ -52,7 +52,6 @@ class Store(models.Model):
     def get_absolute_url(self):        
         return reverse('stores_detail', kwargs={'pk': self.id})
 
-
 # Game model
 class Game(models.Model):
     title = models.CharField(max_length=100)
@@ -62,18 +61,24 @@ class Game(models.Model):
         # choices=GENRES,
         # default=GENRES[0][0]
     )
-    mode = models.CharField(max_length=100
+    mode = models.CharField(
         # max_length=1,
         # choices=MODES,
         # default=MODES[0][0]
-    )
+    max_length=100)
+    System = models.ForeignKey(System, default="1", on_delete=models.CASCADE)
+    stores = models.ManyToManyField(Store, default="gamestop")
 
-    system = models.ForeignKey(System, default='1', on_delete=models.CASCADE)
-    # stores = models.ManyToManyField(Store, default = "Gamestop") 
-    
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):        
         return reverse('games_detail', kwargs={'pk': self.id})
 
+# photo model
+class Photo(models.Model):
+    url = models.CharField(max_length=200)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Photo for game_id: {self.game_id} @{self.url}"
