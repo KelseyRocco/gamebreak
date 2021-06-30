@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+
 <h1>Game Details</h1>
 <div class="row">
     <div class="col s6">
@@ -10,6 +11,7 @@
                 <p>Genre: {{ game.genre }}</p>
                 <p>Mode: {{ game.mode }}</p>
             </div>
+
             <div class="card-action">
                 <a href="{% url 'games_update' game.id %}">Edit</a>
                 <a href="{% url 'games_delete' game.id %}">Delete</a>

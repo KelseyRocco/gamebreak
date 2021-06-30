@@ -5,4 +5,3 @@ admin.site.register(Game)
 admin.site.register(System)
 admin.site.register(Store)
 admin.site.register(Photo)
-

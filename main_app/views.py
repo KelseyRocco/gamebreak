@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.contrib.auth.decorators import login_required 
+from django.contrib.auth.mixins import LoginRequiredMixin 
 # from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import DetailView 
@@ -105,11 +104,6 @@ class SystemDelete(LoginRequiredMixin, DeleteView):
     success_url = '/systems/'
 
 # Store
-
-class StoreDetail(LoginRequiredMixin, DetailView):
-    model = Store
-
-
 class StoreCreate(LoginRequiredMixin, CreateView):
     model = Store
     fields = '__all__'
@@ -122,6 +116,11 @@ class StoreUpdate(LoginRequiredMixin, UpdateView):
 @login_required
 def assoc_store(request, game_id, store_id):
     Game.objects.get(id=game_id).stores.add(store_id)
+    return redirect('game_detail', game_id=game_id)
+
+@login_required
+def unassoc_store(request, game_id, store_id):
+    Game.objects.get(id=game_id).stores.remove(store_id)
     return redirect('game_detail', game_id=game_id)
 
 @login_required
