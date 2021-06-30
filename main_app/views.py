@@ -6,6 +6,8 @@ from .models import Game, System, Store
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import DetailView 
 
+
+
 # SIGN IN/UP
 def signup(request):
     error_message = ''
@@ -37,9 +39,7 @@ def systems_index(request):
 
 def stores_index(request):
     stores = Store.objects.all()
-    return render(request, 'stores/index.html', { 'stores': stores })
-
-
+    return render(request, 'store/index.html', { 'stores': stores })
 
 #Class Based Views
 
@@ -77,7 +77,12 @@ class GameDetail(DetailView):
 
 def games_detail(request, game_id):
     game = Game.objects.get(id=game_id)
-    return render(request, 'games/detail.html', { 'game': game })
+    stores_game_doesnt_have = Store.objects.exclude(id__in = game.stores.all().values_list('id'))
+    return render(request, 'games/detail.html', {
+    'game': game, 
+    'stores': stores_game_doesnt_have
+})
+
 
 class GameDelete(DeleteView):
     model = Game
