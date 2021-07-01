@@ -1,5 +1,5 @@
 body {
-    background: url("../images/superMBG.jpg");
+    background: white url("../images/superMBG.jpg");
     background-size: cover;
 }
 
@@ -7,7 +7,6 @@ nav {
     background-color: transparent;
     height:10%;
 }
-
 .mario{
     position: absolute;
     width: 71px;
@@ -15,14 +14,11 @@ nav {
     background: url('https://raw.githubusercontent.com/LantareCode/random-this-and-thats/master/CSS/SuperMario-Animation/images/mariowalking/result.png') left center;    
     top:5px;
     left:0px;
-    
     -webkit-animation: play 0.8s steps(4) infinite,
                 run 7s both infinite linear;
-    
             animation: play 0.8s steps(4) infinite,
                 run 7s both infinite linear;
 }
-
 @-webkit-keyframes play{
     100%{background-position: -284px;}
 }
@@ -45,4 +41,3 @@ nav {
     from{left: -300px;}
     to{left: 100%;}
 }
-
