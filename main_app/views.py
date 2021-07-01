@@ -53,7 +53,7 @@ def systems_index(request):
 #GAMES
 class GameCreate(LoginRequiredMixin, CreateView):
     model = Game
-    fields = '__all__'
+    fields = ['title', 'date', 'genre', 'mode']
     success_url = '/games/'
 
 class GameUpdate(LoginRequiredMixin, UpdateView):
