@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-
 <h1>Game List
 <button onclick="myFunction()"class="btn-floating btn-large waves-effect waves-light green right"><i class="material-icons">+</i></button> 
 </h1>
-
 {% for game in games %}
     <a href="/games/{{ game.id }}">
         <div class="card">
@@ -16,13 +14,10 @@
         </div>
     </div>
 </a>
-
 <script>
 function myFunction() {
     location.replace("http://localhost:8000/games/create/")
 }
-
 </script>
-
 {% endfor %}
 {% endblock %}

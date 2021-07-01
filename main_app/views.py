@@ -11,7 +11,7 @@ from django.views.generic import DetailView
 import uuid 
 import boto3
 
-from .models import Game, System, Store, Photo
+from .models import Game, System, Photo
 
 # Constant variables 
 S3_BASE_URL = 'https://s3.us-west-1.amazonaws.com/'
@@ -48,10 +48,6 @@ def systems_index(request):
     systems = System.objects.all()
     return render(request, 'systems/index.html', { 'systems': systems })
 
-@login_required
-def stores_index(request):
-    stores = Store.objects.all()
-    return render(request, 'store/index.html', { 'stores': stores })
 
 #Class Based Views
 #GAMES
@@ -70,12 +66,8 @@ class GameDetail(LoginRequiredMixin, DetailView):
 @login_required
 def game_detail(request, game_id):
     game = Game.objects.get(id=game_id)
-    stores_game_doesnt_have = Store.objects.exclude(id__in=game.stores.all().values_list('id'))
-    print(stores_game_doesnt_have)
-    print("----------------------------------------------------------------------------------")
     return render(request, 'game_detail.html', {
         'game' : game
-        # 'game': game, 'stores': stores_game_doesnt_have
 })
 
 class GameDelete(LoginRequiredMixin, DeleteView):
@@ -104,26 +96,6 @@ def systems_detail(request, system_id):
 class SystemDelete(LoginRequiredMixin, DeleteView):
     model = System
     success_url = '/systems/'
-
-# STORE
-class StoreCreate(LoginRequiredMixin, CreateView):
-    model = Store
-    fields = '__all__'
-    success_url = '/stores/'
-
-class StoreUpdate(LoginRequiredMixin, UpdateView):
-    model = Store
-    fields = '__all__'
-
-@login_required
-def assoc_store(request, game_id, store_id):
-    Game.objects.get(id=game_id).stores.add(store_id)
-    return redirect('game_detail', game_id=game_id)
-
-@login_required
-def unassoc_store(request, game_id, store_id):
-    Game.objects.get(id=game_id).stores.remove(store_id)
-    return redirect('game_detail', game_id=game_id)
 
 # PHOTO
 @login_required

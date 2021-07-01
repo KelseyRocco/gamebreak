@@ -50,14 +50,6 @@ class System(models.Model):
     def get_absolute_url(self):        
         return reverse('systems_detail', kwargs={'pk': self.id})
 
-# Store model
-class Store(models.Model):
-    store = models.CharField(max_length =250) 
-    system = models.ForeignKey(System, default='1', on_delete=models.CASCADE)
-    
-    def __str__(self):
-        return self.store
-
 # Game model
 class Game(models.Model):
     title = models.CharField(max_length=100)
@@ -73,10 +65,7 @@ class Game(models.Model):
             default=MODES[0][0]
     )
     system = models.ForeignKey(System, default="1", on_delete=models.CASCADE)
-    # stores = models.ManyToManyField(Store, default="gamestop")
 
-    # def __str__(self):
-    #     return self.title
     def __str__(self):
         return f"{self.get_mode_display()}"
         
