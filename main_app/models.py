@@ -35,13 +35,12 @@ PLATFORMS =(
 
 # Systems model
 class System(models.Model):
-    name = models.CharField(max_length =250)
-    date = models.IntegerField()
-    platform = models.CharField(
+    platform = models.CharField('gaming system',
         max_length=1,
             choices=PLATFORMS,
             default=PLATFORMS[0][1]
     )
+    date = models.IntegerField('version')
 
     # def __str__(self):
     #     return self.name
@@ -62,26 +61,25 @@ class Store(models.Model):
 # Game model
 class Game(models.Model):
     title = models.CharField(max_length=100)
-    date = models.IntegerField()
-    genre = models.CharField(max_length=100
-        # max_length=1,
-        # choices=GENRES,
-        # default=GENRES[0][0]
+    date = models.IntegerField('release year')
+    genre = models.CharField(
+        max_length=1,
+            choices=GENRES,
+            default=GENRES[0][0]
     )
     mode = models.CharField(
-        # max_length=1,
-        # choices=MODES,
-        # default=MODES[0][0]
-    max_length=100)
+        max_length=1,
+            choices=MODES,
+            default=MODES[0][0]
+    )
     system = models.ForeignKey(System, default="1", on_delete=models.CASCADE)
     # stores = models.ManyToManyField(Store, default="gamestop")
-    
 
     def __str__(self):
-        return self.title
+        return f"{self.get_mode_display()}"
 
     def get_absolute_url(self):        
-        return reverse('games_detail', kwargs={'pk': self.id})
+        return reverse('game_detail', kwargs={'pk': self.id})
 
 # photo model
 class Photo(models.Model):

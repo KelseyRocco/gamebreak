@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required 
@@ -73,8 +73,11 @@ def games_detail(request, game_id):
     game = Game.objects.get(id=game_id)
     system_form = SystemForm()
     stores_game_doesnt_have = Store.objects.exclude(id__in=game.stores.all().values_list('id'))
+    print(stores_game_doesnt_have)
+    print("----------------------------------------------------------------------------------")
     return render(request, 'game_detail.html', {
-        'game': game, 'stores': stores_game_doesnt_have
+        'game' : game
+        # 'game': game, 'stores': stores_game_doesnt_have
 })
 
 class GameDelete(LoginRequiredMixin, DeleteView):
@@ -127,6 +130,7 @@ def unassoc_store(request, game_id, store_id):
 # PHOTO
 @login_required
 def add_photo(request, game_id):
+
     photo_file = request.FILES.get('photo-file', None)
     if photo_file:
         s3 = boto3.client('s3')
@@ -138,4 +142,4 @@ def add_photo(request, game_id):
             photo.save()
         except:
             print('An error occurred uploading file to S3')
-    return redirect('game_detail', game_id=game_id)
+    return redirect(f"/games/{game_id}")
