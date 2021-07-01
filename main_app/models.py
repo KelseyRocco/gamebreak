@@ -66,6 +66,8 @@ class Game(models.Model):
     )
     system = models.ForeignKey(System, default="1", on_delete=models.CASCADE)
 
+    # def __str__(self):
+    #     return self.title
     def __str__(self):
         return f"{self.get_mode_display()}"
         
