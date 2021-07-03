@@ -5,8 +5,9 @@ body {
 
 nav {
     background-color: transparent;
-    height:10%;
+    height:80px;
 }
+
 .mario{
     position: absolute;
     width: 71px;
@@ -41,3 +42,4 @@ nav {
     from{left: -300px;}
     to{left: 100%;}
 }
+

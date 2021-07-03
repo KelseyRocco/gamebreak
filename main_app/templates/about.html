@@ -1,4 +1,11 @@
 {% extends 'base.html' %}
+
+{% block nav %}
+    <li><a href="/systems">View All My Systems</a></li>
+    <li><a href="{% url 'login' %}">Sign Out</a></li>
+{% endblock %}
+
+
 {% block content %}
 
     <h1>🎮Our Story🕹️</h1>

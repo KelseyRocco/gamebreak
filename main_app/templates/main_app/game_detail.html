@@ -1,5 +1,15 @@
 {% extends 'base.html' %}
+{%block nav%}
+<li><a href="{% url 'about' %}">About</a></li>
+<li><a href="/systems">View All My Systems</a></li>
+<li><a href="/games">View All My Games</a></li>
+<li><a href="{% url 'login' %}">Log Out</a></li>
+{%endblock%}
+
 {% block content %}
+
+<!-- {% for game in games %}
+    {{game.system}} -->
 
 <h1>Game Details</h1>
 <div class="row">
@@ -32,6 +42,11 @@
         <br><br>
         <input type="submit" class="btn" value="Upload Photo">
     </form>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Delete" class="btn">
+        <a href="{% url 'games_detail' object.id %}">Cancel</a>
+    </form>
 </div>
-
+<!-- {%end for%} -->
 {% endblock %}
