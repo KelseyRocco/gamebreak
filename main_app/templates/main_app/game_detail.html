@@ -41,12 +41,8 @@
         <input type="file" name="photo-file">
         <br><br>
         <input type="submit" class="btn" value="Upload Photo">
+        
     </form>
-    <form action="" method="POST">
-        {% csrf_token %}
-        <input type="submit" value="Delete" class="btn">
-        <a href="{% url 'games_detail' object.id %}">Cancel</a>
-    </form>
-</div>
-<!-- {%end for%} -->
-{% endblock %}
+</div> 
+
+{% endblock %} 

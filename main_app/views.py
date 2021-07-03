@@ -38,16 +38,28 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
+# renders all games without sorting
 @login_required
 def games_index(request):
     games = Game.objects.all()
     return render(request, 'games/index.html', { 'games': games })
 
+# tried this one but it doesn't work
+# @login_required
+# def games_index(request, system_id):
+#     print('pizzzaaaa!!!')
+#     # platform = System.objects.get(id=system_id)
+#     games = Game.objects.filter(platform=system_id)
+#     return render(request, 'games/index.html' {'games': games
+#     # # 'platform': platform  
+#     })
+
+
+
 @login_required
 def systems_index(request):
     systems = System.objects.all()
     return render(request, 'systems/index.html', { 'systems': systems })
-
 
 #Class Based Views
 #GAMES
@@ -113,4 +125,11 @@ def add_photo(request, game_id):
         except:
             print('An error occurred uploading file to S3')
         return redirect (f"/games/{game_id}")
+
+# def delete_photo(request, game_id):
+#     game_photo = Photo.objects.get(game_id=game_id)
+#     s3 = boto3.resource('s3')
+#     s3.Object(BUCKET, game_photo.key).delete()
+#     game_photo.delete()
+#     return redirect (f"/games/{game_id}")
 
