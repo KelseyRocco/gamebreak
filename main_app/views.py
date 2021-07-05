@@ -38,23 +38,16 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
-# renders all games without sorting
 @login_required
-def games_index(request):
+def games_index(request):   
     games = Game.objects.all()
     return render(request, 'games/index.html', { 'games': games })
 
-# tried this one but it doesn't work
-# @login_required
-# def games_index(request, system_id):
-#     print('pizzzaaaa!!!')
-#     # platform = System.objects.get(id=system_id)
-#     games = Game.objects.filter(platform=system_id)
-#     return render(request, 'games/index.html' {'games': games
-#     # # 'platform': platform  
-#     })
-
-
+@login_required
+def system_platform(request, sp_id):
+    games = Game.objects.filter(system__id=sp_id)
+    return render(request, 'games/index.html', {'games': games})
+    # return render (request, 'systems/detail.html', {'games': games})
 
 @login_required
 def systems_index(request):
@@ -67,6 +60,9 @@ class GameCreate(LoginRequiredMixin, CreateView):
     model = Game
     fields = ['title', 'date', 'genre', 'mode']
     success_url = '/games/'
+    # def form_valid(self, form):
+    #     form.instance.user = self.request.user  
+    #     return super().form_valid(form)
 
 class GameUpdate(LoginRequiredMixin, UpdateView):
     model = Game
@@ -85,7 +81,6 @@ def game_detail(request, game_id):
 class GameDelete(LoginRequiredMixin, DeleteView):
     model = Game
     success_url = '/games/'
-
 
 #SYSTEMS
 class SystemCreate(LoginRequiredMixin, CreateView):
@@ -126,10 +121,4 @@ def add_photo(request, game_id):
             print('An error occurred uploading file to S3')
         return redirect (f"/games/{game_id}")
 
-# def delete_photo(request, game_id):
-#     game_photo = Photo.objects.get(game_id=game_id)
-#     s3 = boto3.resource('s3')
-#     s3.Object(BUCKET, game_photo.key).delete()
-#     game_photo.delete()
-#     return redirect (f"/games/{game_id}")
 
