@@ -115,10 +115,19 @@ def add_photo(request, game_id):
         try:
             s3.upload_fileobj(photo_file, BUCKET, key)
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
-            photo = Photo(url=url, game_id=game_id)
+            photo = Photo(url=url, key=key,game_id=game_id) 
+            #PHOTO DELETE ^^^^^
             photo.save()
         except:
             print('An error occurred uploading file to S3')
         return redirect (f"/games/{game_id}")
 
+@login_required
+def delete_game_photo(request, game_id):
+    game_photo = Photo.objects.get(game_id=game_id)
+    s3 = boto3.resource('s3')
+    s3.Object(BUCKET, game_photo.key).delete()
+    game_photo.delete()
+    return redirect(f"/games/{game_id}")
 
+    #PHOTO DELETE CHANGE!!!

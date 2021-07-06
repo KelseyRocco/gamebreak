@@ -92,6 +92,8 @@ class Game(models.Model):
 # photo model
 class Photo(models.Model):
     url = models.CharField(max_length=200)
+    key = models.CharField(max_length=200, default="Photo!")
+    # PHOTO DELETE
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
 
     def __str__(self):
