@@ -3,45 +3,41 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 #CONSTANTS
-PLAYERS = (
-    ('1', 'One'),
-    ('2', 'Two'),
-    ('3', 'Three'),
-    ('4+', 'Four')
+PLATFORMS =(
+    ('Super Nintendo', 'Super Nintendo'),
+    ('GameCube', 'GameCube'),
+    ('Nintendo64', 'Nintendo64'),
+    ('Gameboy', 'GameBoy'),
+    ('Wii', 'Wii'),
+    ('Nintendo Switch', 'Nintendo Swtich')
 )
 
 GENRES=(
-    ('A', 'Adventure'),
-    ('F', 'Fighting'),
-    ('I', 'Indie'),
-    ('R', 'Racing'),
-    ('S', 'Sport'),
-    ('T', 'Tactical')
+    ('Adventure', 'Adventure'),
+    ('Fighting', 'Fighting'),
+    ('Indie', 'Indie'),
+    ('Racing', 'Racing'),
+    ('Ssport', 'Sport'),
+    ('Tactical', 'Tactical')
 )
 
 MODES =(
-    ('M', 'Multiplayer'),
-    ('S', 'Single player'),
-    ('C', 'Co-operative'),
-    ('B', 'Battle Royale')
+    ('Multiplayer', 'Multiplayer'),
+    ('Single Player', 'Single player'),
+    ('Co-operative', 'Co-operative'),
+    ('Battle Royale', 'Battle Royale')
 )
 
-PLATFORMS =(
-    ('N', 'Nintendo'),
-    ('X', 'Xbox'),
-    ('P', 'PlayStation'),
-    ('S', 'Steam')
-)
 
 
 # Systems model
 class System(models.Model):
     platform = models.CharField('gaming system',
-        max_length=1,
+        max_length=20,
             choices=PLATFORMS,
             default=PLATFORMS[0][1]
     )
-    date = models.IntegerField('version')
+    date = models.CharField('version', max_length=100)
 
     # def __str__(self):
     #     return self.name
@@ -55,25 +51,17 @@ class System(models.Model):
         ordering =['-date']
 
 
-# Store model
-class Store(models.Model):
-    store = models.CharField(max_length =250) 
-    system = models.ForeignKey(System, default='1', on_delete=models.CASCADE)
-    
-    def __str__(self):
-        return self.store
-
 # Game model
 class Game(models.Model):
     title = models.CharField(max_length=100)
-    date = models.IntegerField('release year')
+    date = models.CharField('version', max_length=100)
     genre = models.CharField(
-        max_length=1,
+        max_length=20,
             choices=GENRES,
             default=GENRES[0][0]
     )
     mode = models.CharField(
-        max_length=1,
+        max_length=20,
             choices=MODES,
             default=MODES[0][0]
     )
@@ -93,7 +81,6 @@ class Game(models.Model):
 class Photo(models.Model):
     url = models.CharField(max_length=200)
     key = models.CharField(max_length=200, default="Photo!")
-    # PHOTO DELETE
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
 
     def __str__(self):

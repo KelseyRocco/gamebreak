@@ -130,4 +130,3 @@ def delete_game_photo(request, game_id):
     game_photo.delete()
     return redirect(f"/games/{game_id}")
 
-    #PHOTO DELETE CHANGE!!!
