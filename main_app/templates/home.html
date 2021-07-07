@@ -1,4 +1,13 @@
 {% extends 'base.html' %}
+{% block nav %}
+<li><a href="{% url 'about' %}">About</a></li>
+<li><a href="/systems">View All My Systems</a></li>
+<li><a href="{% url 'login' %}">Sign Out</a></li>
+{% endblock %}
+
 {% block content %}
-<h1>Home</h1>
+    <h1>gamebreak</h1>
+    <h3> Track your video games. Level up your skills. </h3>
+        <button><a href="{% url 'login' %}"> Get Started</a> </button>
+
 {% endblock %}

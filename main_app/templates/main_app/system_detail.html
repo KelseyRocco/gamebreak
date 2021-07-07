@@ -1,22 +1,24 @@
 {% extends 'base.html' %}
-{% block nav %}
-    <li><a href="/systems">View All My Systems</a></li>
-    <li><a href="{% url 'login' %}">Sign Out</a></li>
-{% endblock  %}
 {% block content %}
-<h1>Game List</h1>
+<h1>System Details</h1>
 <a href="{% url 'games_create' %}" style= "color: black; font-size: 20px; font-family: 'Press Start 2P', cursive; position: absolute; right: 18%; top: 15%;">
-    <img src="https://raw.githubusercontent.com/LantareCode/random-this-and-thats/master/CSS/SuperMario-Animation/images/Coin.gif" height="40px">
-    add game
-    <img src="https://raw.githubusercontent.com/LantareCode/random-this-and-thats/master/CSS/SuperMario-Animation/images/Coin.gif" height="40px">
-</a>
+        <img src="https://raw.githubusercontent.com/LantareCode/random-this-and-thats/master/CSS/SuperMario-Animation/images/Coin.gif" height="40px">
+        add game
+        <img src="https://raw.githubusercontent.com/LantareCode/random-this-and-thats/master/CSS/SuperMario-Animation/images/Coin.gif" height="40px">
+    </a>
 
+<div class="card">
+<form action="" method="POST">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+</form>
 
 {% for game in games %}
-<a href="/games/{{ game.id }}">
+    <a href="/games/systems/{{ system.id }}"> 
         <div class="row">
             <div class="col s12 m6">
-                <div class="card blue-grey lighten-1">
+                <div class="card blue-grey darken-1">
                     <div class="card-content white-text">
                     <span class="card-title"> {{ game.title }}</span>
                     <p>Title: {{ game.title }}</p>
@@ -28,9 +30,4 @@
             </div>
         </div>
 {% endfor %}
-
-
-
 {% endblock %}
-
-
